@@ -5,16 +5,18 @@
 
 # Установка
 1. В игре нажмите на кнопку параметров
-![btn-settings](img\settings-button.png)
+![btn-settings](img/settings-button.png)
 2. Вставте нижепредставленный скрипт в появившееся окно в самом вверху
 ```js
 function dreamLandWebExtand(){
+    /*НАСТРОЙКИ*/
     let chatView = true;
     let chatWithNpc = false;
     let chatParam = {
         'width': '20%',
         'height': '150px'
     }
+
     let language = {
         'npcSpeaks': 'произносит',
         'outRole': 'внероли',
@@ -37,6 +39,12 @@ function dreamLandWebExtand(){
                 }
                 return false
             });
+
+            $(document).on('click', '.dle-Answer', function(e, text) {
+                let p1 = $(this).data('type');
+                let p2 = $(this).data('speaker');
+                $('#inputBox').val(`${p1} ${p2}`);
+            })
         }
     }
 
@@ -48,12 +56,12 @@ function dreamLandWebExtand(){
         }
         result = msg.match(`^\[${language['outRole']}\] (.*): '(.*)'`);
         if (result) {
-            $('#dle_ul').append(`<li><span class="fgbr">${result[1]}> ${result[2]}</span></li>`)
+            $('#dle_ul').append(`<li><span style="cursor: pointer;" class="fgbr dle-Answer" data-speaker="" data-type="${language['outRole']}">${result[1]}> ${result[2]}</span></li>`)
             return
         }
         result = msg.match(`^(.*) ${language['tellsYou']} '(.*)'`);
         if (result) {
-            $('#dle_ul').append(`<li><span class="fgbc">${result[1]}> ${result[2]}</span></li>`)
+            $('#dle_ul').append(`<li><span style="cursor: pointer;" class="fgbc dle-Answer" data-type="${language['outRole']}" data-speaker="${result[1]}">${result[1]}> ${result[2]}</span></li>`)
             return
         }
     }
@@ -65,12 +73,11 @@ function dreamLandWebExtand(){
 }
 
 const dle = dreamLandWebExtand();
-/*Настройки скрипта*/
 dle.start();
 ```
-3. В /*Настройки скрипта*/ можно указать настройки для расширения (ниже)
+3. В /\*НАСТРОЙКИ\*/ можно указать настройки для расширения (описание ниже)
 4. В блоке "Триггер" укажите **dle.addLineChat(text);**
-![btn-settings](img\chat_addline.png)
+![btn-settings](img/chat_addline.png)
 
 # Настройки
 ## Общие
