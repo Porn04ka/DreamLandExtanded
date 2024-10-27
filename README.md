@@ -1,2 +1,6 @@
 # DreamLandExtanded
-Various extensions for MUD games DreamLand
+
+Оригинальная игра: https://dreamland.rocks/index.html
+
+# Web Расширения 
+- Чат. Установка и настройка  в ...
