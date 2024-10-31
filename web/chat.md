@@ -10,22 +10,23 @@
 ```js
 function dreamLandWebExtand(){
     /*НАСТРОЙКИ*/
-    let chatView = true;
-    let chatWithNpc = false;
-    let chatParam = {
-        'width': '20%',
-        'height': '150px'
-    }
-
-    let language = {
-        'npcSpeaks': 'произносит',
-        'outRole': 'внероли',
-        'tellsYou': 'говорит тебе'
+    let settings = {
+        'chatView':     true,
+        'chatWithNpc':  false,
+        'chatParam': {
+            'width':    '20%',
+            'height':   '150px'
+            },
+        'phrases': [
+            ["^(.*) произносит '(.*)'", 'fgdg'],
+            ["^\[внероли\] (.*): '(.*)'", 'fgdr'],
+            ["^(.*) говорит тебе '(.*)'", 'fgbc']
+        ]
     }
 
     function start(){
-        if (chatView) {
-            $('body').prepend('<div id="dle-modal-chat" style="position: absolute;top: 1px;right: 1px;z-index: 999;width: ' + chatParam['width'] + ';"> <button data-state="1" aria-hidden="true" class="btn btn-sm btn-outline-primary" style="position: absolute; top: 0px; right: 0px;" id="dle-btn-chat">  <i class="fa fa-minus" id="dle_btn_style"></i>  </button> <div id="dle-chat" style="background-color: #353535; border-radius: 0px 0px 0px 15px; height: ' + chatParam['height'] + '; overflow-y: scroll;"> <ul style="list-style-type:  none; margin-left: -25px" id="dle_ul"></ul> </div></div>')
+        if (settings.chatView) {
+            $('body').prepend('<div id="dle-modal-chat" style="position: absolute;top: 1px;right: 1px;z-index: 999;width: ' + settings.chatParam.width + ';"> <button data-state="1" aria-hidden="true" class="btn btn-sm btn-outline-primary" style="position: absolute; top: 0px; right: 0px;" id="dle-btn-chat">  <i class="fa fa-minus" id="dle_btn_style"></i>  </button> <div id="dle-chat" style="background-color: #353535; border-radius: 0px 0px 0px 15px; height: ' + settings.chatParam.height + '; overflow-y: scroll;"> <ul style="list-style-type:  none; margin-left: -25px" id="dle_ul"></ul> </div></div>')
 
             $(document).on('click', '#dle-btn-chat', function(e, text) {
                 if ($(this).data('state') === 0) {
@@ -49,21 +50,16 @@ function dreamLandWebExtand(){
     }
 
     function addLineChat(msg) {
-        let result = msg.match(`^(.*) ${language['npcSpeaks']} '(.*)'`);
-        if (result && chatWithNpc) {
-            $('#dle_ul').append(`<li><span class="fgdg">${result[1]}> ${result[2]}</span></li>`)
-            return
-        }
-        result = msg.match(`^\[${language['outRole']}\] (.*): '(.*)'`);
-        if (result) {
-            $('#dle_ul').append(`<li><span style="cursor: pointer;" class="fgbr dle-Answer" data-speaker="" data-type="${language['outRole']}">${result[1]}> ${result[2]}</span></li>`)
-            return
-        }
-        result = msg.match(`^(.*) ${language['tellsYou']} '(.*)'`);
-        if (result) {
-            $('#dle_ul').append(`<li><span style="cursor: pointer;" class="fgbc dle-Answer" data-type="${language['outRole']}" data-speaker="${result[1]}">${result[1]}> ${result[2]}</span></li>`)
-            return
-        }
+        let result = '';
+        
+        settings.phrases.forEach((item) => {
+            let result = msg.match(item);
+            if (result) {
+                $('#dle_ul').append(`<li><span class="${item[1]}">${result[1]}</span>&gt; ${result[2]}</li>`)
+                document.getElementById('dle-chat').scrollTop = scrollTop = document.getElementById('dle-chat').scrollHeight;
+                return
+            }
+        })
     }
 
     return {
@@ -81,7 +77,7 @@ dle.start();
 
 # Настройки
 ## Общие
-- **language** (object) - задает перевод. По умолчанию рус
+- **phrases** (array) - массив шаблонов поиска
 
 ## Чат
 - **chatView** (bool) - Включение/Отключение чата. Значаение по умолчанию true
