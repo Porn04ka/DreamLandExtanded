@@ -22,9 +22,7 @@ function dreamLandWebExtand(){
     }
 
     function setSettings(objSettings) {
-        console.log(11111);
         if (typeog(objSettings) != 'object') return;
-        console.log(22222);
         for (let key in objSettings){
             if (key in settings){
                 settings[key] = objSettings[key];
@@ -76,8 +74,7 @@ function dreamLandWebExtand(){
 
     function addLineChat(msg) {
         if (msg.length < 4) return;
-        let result = '';
-        
+               
         settings.phrases.forEach((item) => {
             let result = msg.match(item[0]);
             if (result) {
@@ -96,4 +93,5 @@ function dreamLandWebExtand(){
 }
 
 const dle = dreamLandWebExtand();
+dle.setSettings(mySettings)
 dle.start();
