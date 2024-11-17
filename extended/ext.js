@@ -22,7 +22,7 @@ function dreamLandWebExtand(){
     }
 
     function setSettings(objSettings) {
-        if (typeog(objSettings) != 'object') return;
+        if (typeof(objSettings) != 'object') return;
         for (let key in objSettings){
             if (key in settings){
                 settings[key] = objSettings[key];
