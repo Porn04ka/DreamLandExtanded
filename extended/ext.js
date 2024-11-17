@@ -55,7 +55,7 @@ function dreamLandWebExtand(){
             })
         }
 
-        if (settings.addButtonPanel && Object.keys(btnCommand).length > 0 ) {   
+        if (settings.addButtonPanel && settings.btnCommand.length  > 0 ) {   
             let lPanel = '';
             let rPanel = '';
             let fLPanel = true;
@@ -74,7 +74,7 @@ function dreamLandWebExtand(){
 
     function addLineChat(msg) {
         if (msg.length < 4) return;
-               
+
         settings.phrases.forEach((item) => {
             let result = msg.match(item[0]);
             if (result) {
