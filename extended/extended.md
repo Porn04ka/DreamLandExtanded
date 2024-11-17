@@ -26,6 +26,7 @@ fetch("https://porn04ka.github.io/DreamLandExtanded/extended/ext.js")
 ```
 3. В **НАСТРОЙКИ** можно указать настройки для расширения (описание ниже)
 4. В блоке "Триггер" укажите **dle.addLineChat(text);**
+
 ![btn-settings](img/chat_addline.png)
 
 # Настройки
